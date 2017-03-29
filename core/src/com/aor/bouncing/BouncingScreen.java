@@ -30,6 +30,9 @@ public class BouncingScreen extends ScreenAdapter {
      */
     private final Texture ballTexture;
 
+    /**
+     * The camera.
+     */
     private final OrthographicCamera camera;
 
     /**
