@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class BouncingScreen extends ScreenAdapter {
     /**
-     * Game width in meters
+     * Viewport width in meters. Height depends on screen ratio
      */
-    private static final int GAME_WIDTH = 6;
+    private static final int VIEWPORT_WIDTH = 6;
 
     /**
      * A football is 22cm in diameter and the sprite has a width of 200px
@@ -40,12 +40,17 @@ public class BouncingScreen extends ScreenAdapter {
     public BouncingScreen(BouncingBalls game) {
         this.game = game;
 
+        // Load the textures
         game.getAssetManager().load("ball.png", Texture.class);
         game.getAssetManager().finishLoading();
 
-        ballTexture = (Texture) game.getAssetManager().get("ball.png");
+        // Get the ball texture
+        ballTexture = game.getAssetManager().get("ball.png");
 
-        camera = new OrthographicCamera(GAME_WIDTH / PIXEL_TO_METER, GAME_WIDTH/ PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
+        // Create the camera
+        camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH/ PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
+
+
     }
 
     /**
