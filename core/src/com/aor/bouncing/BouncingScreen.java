@@ -5,6 +5,13 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * The only game screen.
@@ -30,7 +37,20 @@ public class BouncingScreen extends ScreenAdapter {
      */
     private final Texture ballTexture;
 
+    /**
+     * The camera.
+     */
     private final OrthographicCamera camera;
+
+    /**
+     * The physical world.
+     */
+    private final World world;
+
+    /**
+     * The ball physical body
+     */
+    private final Body ballBody;
 
     /**
      * Creates a new screen loadings all needed textures.
@@ -48,7 +68,47 @@ public class BouncingScreen extends ScreenAdapter {
         ballTexture = game.getAssetManager().get("ball.png");
 
         // Create the camera
-        camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH/ PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
+        float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
+        camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH / PIXEL_TO_METER * ratio);
+        camera.position.set(new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 0)); // middle of the viewport
+
+        // Create the physical world
+        world = new World(new Vector2(0, -10), true);
+
+        ballBody = createBallBody();
+    }
+
+    /**
+     * Creates the ball body.
+     */
+    private Body createBallBody() {
+        // Create the ball body definition
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+
+        // Create the ball body
+        float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
+        Body body = world.createBody(bodyDef);
+        body.setTransform(VIEWPORT_WIDTH / 2, (VIEWPORT_WIDTH * ratio) / 2, 0); // Middle of the viewport, no rotation
+
+        // Create circle shape
+        CircleShape circle = new CircleShape();
+        circle.setRadius(0.22f); //22cm
+
+        // Create ball fixture
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.density = .5f;      // how heavy is the ball
+        fixtureDef.friction =  .5f;    // how slippery is the ball
+        fixtureDef.restitution =  .5f; // how bouncy is the ball
+
+        // Attach ficture to body
+        body.createFixture(fixtureDef);
+
+        // Dispose of circle shape
+        circle.dispose();
+
+        return body;
     }
 
     /**
@@ -60,6 +120,9 @@ public class BouncingScreen extends ScreenAdapter {
     public void render(float delta) {
         super.render(delta);
 
+        // Update the world
+        world.step(delta, 6, 2);
+
         // Update the camera
         camera.update();
         game.getBatch().setProjectionMatrix(camera.combined);
@@ -70,7 +133,7 @@ public class BouncingScreen extends ScreenAdapter {
 
         // Draw the texture
         game.getBatch().begin();
-        game.getBatch().draw(ballTexture, 100, 100);
+        game.getBatch().draw(ballTexture, ballBody.getPosition().x / PIXEL_TO_METER,  ballBody.getPosition().y / PIXEL_TO_METER);
         game.getBatch().end();
     }
 }
