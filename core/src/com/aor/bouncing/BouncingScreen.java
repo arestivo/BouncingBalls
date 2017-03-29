@@ -23,7 +23,7 @@ public class BouncingScreen extends ScreenAdapter {
     /**
      * Viewport width in meters. Height depends on screen ratio
      */
-    private static final int VIEWPORT_WIDTH = 6;
+    private static final int VIEWPORT_WIDTH = 4;
 
     /**
      * A football is 22cm in diameter and the sprite has a width of 200px
@@ -105,7 +105,7 @@ public class BouncingScreen extends ScreenAdapter {
         debugCamera.scl(1 / PIXEL_TO_METER);
 
         // Create the physical world
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, -3), true);
 
         ballBody = createBallBody();
         groundBody = createGroundBody();
@@ -182,6 +182,18 @@ public class BouncingScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         super.render(delta);
+
+        // Handle Inputs
+        if (Gdx.input.isTouched()) {
+            float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
+            Vector3 touch = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+            float x = touch.x * PIXEL_TO_METER;
+            float y = touch.y * PIXEL_TO_METER;
+
+            if (ballBody.getFixtureList().get(0).testPoint(x, y))
+                ballBody.applyForceToCenter(0, 1, true);
+        }
 
         // Update the world
         world.step(delta, 6, 2);
