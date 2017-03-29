@@ -49,8 +49,6 @@ public class BouncingScreen extends ScreenAdapter {
 
         // Create the camera
         camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH/ PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
-
-
     }
 
     /**
