@@ -185,7 +185,6 @@ public class BouncingScreen extends ScreenAdapter {
 
         // Handle Inputs
         if (Gdx.input.isTouched()) {
-            float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
             Vector3 touch = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
             float x = touch.x * PIXEL_TO_METER;
