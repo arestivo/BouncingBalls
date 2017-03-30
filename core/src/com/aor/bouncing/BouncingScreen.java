@@ -51,7 +51,11 @@ public class BouncingScreen extends ScreenAdapter {
         ballTexture = game.getAssetManager().get("ball.png");
 
         // Create the camera
-        camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH/ PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
+        float ratio = ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth());
+        camera = new OrthographicCamera(
+                VIEWPORT_WIDTH / PIXEL_TO_METER,
+                VIEWPORT_WIDTH / PIXEL_TO_METER * ratio
+        );
     }
 
     /**
