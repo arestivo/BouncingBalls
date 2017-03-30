@@ -128,11 +128,11 @@ public class BouncingScreen extends ScreenAdapter {
         // Create ground fixture
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = rectangle;
-        fixtureDef.density = .5f;      // how heavy is the ball
-        fixtureDef.friction =  .5f;    // how slippery is the ball
-        fixtureDef.restitution =  .5f; // how bouncy is the ball
+        fixtureDef.density = .5f;      // how heavy is the ground
+        fixtureDef.friction =  .5f;    // how slippery is the ground
+        fixtureDef.restitution =  .5f; // how bouncy is the ground
 
-        // Attach ficture to body
+        // Attach fixture to body
         body.createFixture(fixtureDef);
 
         // Dispose of circle shape
@@ -165,7 +165,7 @@ public class BouncingScreen extends ScreenAdapter {
         fixtureDef.friction =  .5f;    // how slippery is the ball
         fixtureDef.restitution =  .5f; // how bouncy is the ball
 
-        // Attach ficture to body
+        // Attach fixture to body
         body.createFixture(fixtureDef);
 
         // Dispose of circle shape
