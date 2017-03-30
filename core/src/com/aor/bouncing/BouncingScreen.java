@@ -208,7 +208,7 @@ public class BouncingScreen extends ScreenAdapter {
         // Draw the texture
         game.getBatch().begin();
         game.getBatch().draw(ballTexture, (ballBody.getPosition().x -.11f) / PIXEL_TO_METER,  (ballBody.getPosition().y - .11f) / PIXEL_TO_METER);
-        game.getBatch().draw(groundTexture, 0,  0, VIEWPORT_WIDTH / PIXEL_TO_METER, .50f / PIXEL_TO_METER);
+        game.getBatch().draw(groundTexture, 0, 0, 0, 0, (int)(VIEWPORT_WIDTH / PIXEL_TO_METER), (int)(.50f / PIXEL_TO_METER));
         game.getBatch().end();
 
         // Render debug camera
