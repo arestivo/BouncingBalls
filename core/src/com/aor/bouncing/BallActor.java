@@ -79,6 +79,7 @@ class BallActor extends Actor {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        sprite.setColor(getColor());
         sprite.draw(batch);
     }
 

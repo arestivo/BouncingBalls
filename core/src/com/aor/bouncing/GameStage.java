@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -56,6 +56,11 @@ class GameStage extends Stage {
         ballActor = new BallActor(game);
         ballActor.setPosition((VIEWPORT_WIDTH) / 2 / PIXEL_TO_METER, (VIEWPORT_WIDTH * ratio) / 2 / PIXEL_TO_METER);
         addActor(ballActor);
+
+        AlphaAction alphaAction = new AlphaAction();
+        alphaAction.setAlpha(.5f);
+        alphaAction.setDuration(10);
+        ballActor.addAction(alphaAction);
 
         GroundActor groundActor = new GroundActor(game);
         groundActor.setPosition(0, 0);
