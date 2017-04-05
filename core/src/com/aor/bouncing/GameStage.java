@@ -1,6 +1,9 @@
 package com.aor.bouncing;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -42,8 +45,12 @@ class GameStage extends Stage {
      */
     private final BallActor ballActor;
 
-    GameStage(BouncingBalls game) {
+    /**
+     * The sound the ball makes when kicked.
+     */
+    private final Sound kickSound;
 
+    GameStage(BouncingBalls game) {
         // Set the viewport
         float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
         setViewport(new FitViewport(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH / PIXEL_TO_METER * ratio));
@@ -51,6 +58,8 @@ class GameStage extends Stage {
         // Load the textures
         game.getAssetManager().load("ball.png", Texture.class);
         game.getAssetManager().load("ground.png", Texture.class);
+        game.getAssetManager().load("kick.wav", Sound.class);
+        game.getAssetManager().load("music.mp3", Music.class);
         game.getAssetManager().finishLoading();
 
         ballActor = new BallActor(game);
@@ -86,8 +95,15 @@ class GameStage extends Stage {
                 Vector2 vector = new Vector2(velocityX / 1000, velocityY / 1000);
                 vector.rotateRad(ballBody.getAngle());
                 ballBody.applyForceToCenter(vector, true);
+                kickSound.play();
             }
         });
+
+        kickSound = game.getAssetManager().get("kick.wav");
+
+        Music music = game.getAssetManager().get("music.mp3");
+        music.setLooping(true);
+        music.play();
     }
 
     @Override
