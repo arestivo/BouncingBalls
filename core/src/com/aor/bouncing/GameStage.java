@@ -65,12 +65,7 @@ class GameStage extends Stage {
         ballActor = new BallActor(game);
         ballActor.setPosition((VIEWPORT_WIDTH) / 2 / PIXEL_TO_METER, (VIEWPORT_WIDTH * ratio) / 2 / PIXEL_TO_METER);
         addActor(ballActor);
-
-        AlphaAction alphaAction = new AlphaAction();
-        alphaAction.setAlpha(.5f);
-        alphaAction.setDuration(10);
-        ballActor.addAction(alphaAction);
-
+        
         GroundActor groundActor = new GroundActor(game);
         groundActor.setPosition(0, 0);
         addActor(groundActor);
