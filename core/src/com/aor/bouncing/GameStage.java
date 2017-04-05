@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -57,11 +61,6 @@ class GameStage extends Stage {
         ballActor.setPosition((VIEWPORT_WIDTH) / 2 / PIXEL_TO_METER, (VIEWPORT_WIDTH * ratio) / 2 / PIXEL_TO_METER);
         addActor(ballActor);
 
-        AlphaAction alphaAction = new AlphaAction();
-        alphaAction.setAlpha(.5f);
-        alphaAction.setDuration(10);
-        ballActor.addAction(alphaAction);
-
         GroundActor groundActor = new GroundActor(game);
         groundActor.setPosition(0, 0);
         addActor(groundActor);
@@ -86,7 +85,32 @@ class GameStage extends Stage {
                 Vector2 vector = new Vector2(velocityX / 1000, velocityY / 1000);
                 vector.rotateRad(ballBody.getAngle());
                 ballBody.applyForceToCenter(vector, true);
+
+                AlphaAction alphaAction = new AlphaAction();
+                alphaAction.setAlpha(1);
+                alphaAction.setDuration(1);
+                ballActor.addAction(alphaAction);
             }
+        });
+
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                AlphaAction alphaAction = new AlphaAction();
+                alphaAction.setAlpha(.2f);
+                alphaAction.setDuration(1);
+                ballActor.addAction(alphaAction);
+
+            }
+
+            @Override
+            public void endContact(Contact contact) { }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) { }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) { }
         });
     }
 
