@@ -9,7 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * The only game screen.
  */
 class BouncingScreen extends ScreenAdapter {
-    private final Stage gameStage;
+    private final GameStage gameStage;
+    private final ScoreStage scoreStage;
 
     /**
      *
@@ -17,6 +18,7 @@ class BouncingScreen extends ScreenAdapter {
      */
     BouncingScreen(BouncingBalls game) {
         this.gameStage = new GameStage(game);
+        this.scoreStage = new ScoreStage(game);
 
         // Sets the stage as its input processor
         Gdx.input.setInputProcessor(gameStage);
@@ -36,9 +38,11 @@ class BouncingScreen extends ScreenAdapter {
 
         // Steps the stage
         gameStage.act(delta);
+        scoreStage.setScore((int)gameStage.getMaximumHeight());
 
         // Draws the stage
         gameStage.draw();
+        scoreStage.draw();
     }
 
     /**
@@ -50,5 +54,6 @@ class BouncingScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         gameStage.getViewport().update(width, height, true);
+        scoreStage.getViewport().update(width, height, true);
     }
 }

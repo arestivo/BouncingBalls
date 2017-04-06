@@ -49,6 +49,8 @@ class GameStage extends Stage {
      */
     private final Sound kickSound;
 
+    private float maximumHeight;
+
     GameStage(BouncingBalls game) {
         // Set the viewport
         float ratio = ((float) Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth());
@@ -123,5 +125,11 @@ class GameStage extends Stage {
         // Update the ball actor position
         ballActor.setRotation((float) Math.toDegrees(ballBody.getAngle()));
         ballActor.setPosition(ballBody.getPosition().x / PIXEL_TO_METER, ballBody.getPosition().y / PIXEL_TO_METER);
+
+        maximumHeight = Math.max(maximumHeight, ballBody.getPosition().y);
+    }
+
+    public float getMaximumHeight() {
+        return maximumHeight;
     }
 }
