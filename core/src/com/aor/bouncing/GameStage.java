@@ -3,6 +3,7 @@ package com.aor.bouncing;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -100,8 +101,16 @@ class GameStage extends Stage {
     }
 
     @Override
+    public void draw() {
+        super.draw();
+    }
+
+    @Override
     public void act(float delta) {
         super.act(delta);
+
+        // Update camera
+        ((OrthographicCamera)getCamera()).zoom = Math.max(1, ballActor.getY() / getCamera().viewportHeight * 2f);
 
         // Step the world
         world.step(delta, 6, 2);
