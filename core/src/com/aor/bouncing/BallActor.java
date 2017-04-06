@@ -2,8 +2,10 @@ package com.aor.bouncing;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -24,16 +26,37 @@ class BallActor extends Actor {
     private final Sprite sprite;
 
     /**
+     * The animation
+     */
+    private final Animation<TextureRegion> animation;
+
+    /**
+     * Time used to select the current animation frame.
+     */
+    private float stateTime = 0;
+
+    /**
      * Returns a ball actor.
      *
      * @param game the game the actor belongs to
      */
     BallActor(BouncingBalls game) {
-        Texture texture = game.getAssetManager().get("ball.png");
-        sprite = new Sprite(texture);
+        Texture texture = game.getAssetManager().get("monkey.png");
+
+        // Split the texture into frame
+        TextureRegion[][] thrustRegion = TextureRegion.split(texture, texture.getWidth() / 10, texture.getHeight());
+
+        // Put the frames into a uni-dimensional array
+        TextureRegion[] frames = new TextureRegion[10];
+        System.arraycopy(thrustRegion[0], 0, frames, 0, 10);
+
+        // Create the animation
+        animation = new Animation<TextureRegion>(.25f, frames);
+
+        sprite = new Sprite(animation.getKeyFrame(0));
 
         // Necessary so that inputs events are registered correctly
-        setWidth(texture.getWidth());
+        setWidth(animation.getKeyFrame(0).getRegionWidth());
         setHeight(texture.getHeight());
 
         // Necessary so that rotations are correctly processed
@@ -69,6 +92,14 @@ class BallActor extends Actor {
     protected void rotationChanged() {
         super.rotationChanged();
         sprite.setRotation(getRotation());
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        stateTime += delta;
+        sprite.setRegion(animation.getKeyFrame(stateTime, true));
     }
 
     /**

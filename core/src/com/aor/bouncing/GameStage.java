@@ -1,6 +1,5 @@
 package com.aor.bouncing;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -56,7 +54,7 @@ class GameStage extends Stage {
         setViewport(new FitViewport(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH / PIXEL_TO_METER * ratio));
 
         // Load the textures
-        game.getAssetManager().load("ball.png", Texture.class);
+        game.getAssetManager().load("monkey.png", Texture.class);
         game.getAssetManager().load("ground.png", Texture.class);
         game.getAssetManager().load("kick.wav", Sound.class);
         game.getAssetManager().load("music.mp3", Music.class);
@@ -65,7 +63,7 @@ class GameStage extends Stage {
         ballActor = new BallActor(game);
         ballActor.setPosition((VIEWPORT_WIDTH) / 2 / PIXEL_TO_METER, (VIEWPORT_WIDTH * ratio) / 2 / PIXEL_TO_METER);
         addActor(ballActor);
-        
+
         GroundActor groundActor = new GroundActor(game);
         groundActor.setPosition(0, 0);
         addActor(groundActor);
