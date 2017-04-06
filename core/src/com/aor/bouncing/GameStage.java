@@ -106,6 +106,11 @@ class GameStage extends Stage {
         // Step the world
         world.step(delta, 6, 2);
 
+        if (ballBody.getPosition().x < 0 || ballBody.getPosition().x > VIEWPORT_WIDTH) {
+            ballBody.setTransform(VIEWPORT_WIDTH / 2, VIEWPORT_WIDTH / 2, 0);
+            ballBody.setLinearVelocity(0, 0);
+        }
+
         // Update the ball actor position
         ballActor.setRotation((float) Math.toDegrees(ballBody.getAngle()));
         ballActor.setPosition(ballBody.getPosition().x / PIXEL_TO_METER, ballBody.getPosition().y / PIXEL_TO_METER);
